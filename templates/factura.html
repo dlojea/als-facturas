@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Factura</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+    <br>
+    <div class="container">
+        <div class="card">
+          <div class="card-header">
+            Fecha
+            <strong>{{fecha}}</strong>
+          </div>
+
+          <div class="card-body">
+            <div class="row mb-4">
+              <div class="col-sm-6">
+                <h6>De:</h6>
+                <div>
+                  <strong>{{e_nombre}}</strong>
+                </div>
+                <div>{{e_direccion}}</div>
+                <div>{{e_cp}} {{e_poblacion}} {{e_provincia}}, {{e_pais}}</div>
+                <div>Contacto: {{e_contacto}}</div>
+                <div>Email: {{e_email}}</div>
+                <div>Tlf: {{e_telefono}}</div>
+              </div>
+              <div class="col-sm-6">
+                <h6>Para:</h6>
+                <div>
+                  <strong>{{c_nombre}}</strong>
+                </div>
+               <div>{{c_direccion}}</div>
+                <div>{{c_cp}} {{c_poblacion}} {{c_provincia}}, {{c_pais}}</div>
+                <div>Contacto: {{c_contacto}}</div>
+                <div>Email: {{c_email}}</div>
+                <div>Tlf: {{c_telefono}}</div>
+              </div>
+            </div>
+            <div class="table-responsive-sm">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th class="center">#</th>
+                    <th>Articulo</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for linea in lineas_factura %}
+                  <tr>
+                    <td>1</td>
+                    <td>{{linea.nombre}}</td>
+                    <td>{{linea.precio}} €</td>
+                    <td>{{linea.cantidad}}</td>
+                    <td>{{linea.subtotal}} €</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="row">
+              <div class="col-sm-5 ml-auto">
+                <table class="table table-clear">
+                  <tbody>
+                    <tr>
+                      <td class="left">
+                        <strong>Total</strong>
+                      </td>
+                      <td class="right">
+                        <strong>{{total}} €</strong>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <br>
+
+</body>
+</html>
+
+
