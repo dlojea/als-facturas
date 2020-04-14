@@ -23,7 +23,7 @@
                   <strong>{{e_nombre}}</strong>
                 </div>
                 <div>{{e_direccion}}</div>
-                <div>{{e_cp}} {{e_poblacion}} {{e_provincia}}, {{e_pais}}</div>
+                <div>{{e_cp}} {{e_poblacion}}, {{e_provincia}}, {{e_pais}}</div>
                 <div>Contacto: {{e_contacto}}</div>
                 <div>Email: {{e_email}}</div>
                 <div>Tlf: {{e_telefono}}</div>
@@ -34,7 +34,7 @@
                   <strong>{{c_nombre}}</strong>
                 </div>
                <div>{{c_direccion}}</div>
-                <div>{{c_cp}} {{c_poblacion}} {{c_provincia}}, {{c_pais}}</div>
+                <div>{{c_cp}} {{c_poblacion}}, {{c_provincia}}, {{c_pais}}</div>
                 <div>Contacto: {{c_contacto}}</div>
                 <div>Email: {{c_email}}</div>
                 <div>Tlf: {{c_telefono}}</div>
@@ -46,35 +46,40 @@
                   <tr>
                     <th class="center">#</th>
                     <th>Articulo</th>
-                    <th>Precio</th>
                     <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>IVA</th>
+                    <th>Sin IVA</th>
                     <th>Total</th>
                   </tr>
                 </thead>
                 <tbody>
                 {% for linea in lineas_factura %}
                   <tr>
-                    <td>1</td>
+                    <td>{{lineas_factura.index(linea) + 1}}</td>
                     <td>{{linea.nombre}}</td>
-                    <td>{{linea.precio}} €</td>
                     <td>{{linea.cantidad}}</td>
-                    <td>{{linea.subtotal}} €</td>
+                    <td>{{linea.precio}} €</td>
+                    <td>{{linea.iva}}</td>
+                    <td>{{linea.subtotal}}</td>
+                    <td>{{linea.total}} €</td>
                   </tr>
                 {% endfor %}
                 </tbody>
               </table>
             </div>
             <div class="row">
-              <div class="col-sm-5 ml-auto">
-                <table class="table table-clear">
+            <div class="col-lg-4 col-sm-5"></div>
+            <div class="col-lg-4 col-sm-5 ml-auto">
+               <table class="table table-clear">
                   <tbody>
                     <tr>
-                      <td class="left">
-                        <strong>Total</strong>
-                      </td>
-                      <td class="right">
-                        <strong>{{total}} €</strong>
-                      </td>
+                       <td class="left"><strong>Total sin IVA</strong></td>
+                       <td class="right"> {{total_sin_iva}} €</td>
+                    </tr>
+                    <tr>
+                      <td class="left"><strong>Total</strong></td>
+                      <td class="right"><strong>{{total}} €</strong></td>
                     </tr>
                   </tbody>
                 </table>

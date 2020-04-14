@@ -4,35 +4,47 @@
         <meta charset="UTF-8">
         <title>Factura</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
         <script>
-            var num = 1
+             var num = 1
+
             function añadir_fila() {
                 num++;
                 var tabla = document.getElementById('tabla_articulos');
                 var fila = document.createElement("tr");
+                var content = ""
 
                 fila.setAttribute("class", "articulo" + num);
 
-                fila.innerHTML = "<td>" + num + "</td>"
-                fila.innerHTML += "<td><input type='text' name='nombre' id='nombre' placeholder='Nombre' class='form-control'/></td>";
-                fila.innerHTML += "<td><input type='text' name='cantidad' id='cantidad' placeholder='Cantidad' class='form-control'/></td>";
-                fila.innerHTML += "<td><input type='text' name='precio' id='precio' placeholder='Precio' class='form-control'/></td>";
+                content += "<td>" + num + "</td>"
+                content += "<td><input type='text' name='nombre' id='nombre' placeholder='Nombre' class='form-control' required/></td>";
+                content += "<td><input type='number' name='cantidad' id='cantidad' placeholder='Cantidad' class='form-control' required/></td>";
+                content += "<td><input type='number' step='0.01' name='precio' id='precio' placeholder='Precio' class='form-control' required/></td>";
+                content += "<td><input type='number' step='0.01' name='iva' id='iva' placeholder='IVA' class='form-control' required/></td>"
 
+                fila.innerHTML = content
                 tabla.appendChild(fila)
             }
 
             function eliminar_fila() {
-                var tabla = document.getElementById('tabla_articulos');
-                var filas = tabla.rows.length;
+                if (num > 1) {
+                    var tabla = document.getElementById('tabla_articulos');
+                    var filas = tabla.rows.length;
 
-                tabla.deleteRow(filas - 1);
-                num--;
+                    tabla.deleteRow(filas - 1);
+                    num--;
+                }
+            }
+            function check() {
+                if (document.getElementById("iva").value <= 0) {
+                    alert("El IVA debe ser mayor de 0");
+                    return false
+                }
+                return true
             }
         </script>
     </head>
     <body>
-        <form id="form_factura" action="/factura" method="post">
+        <form id="form_factura" action="/factura" method="post" onsubmit="return check()">
             <br>
             <div class="container col-8">
             <div class="card">
@@ -41,49 +53,49 @@
                 <div class="row">
                     <div class="form-group col-8">
                         <label>Nombre</label>
-                        <input type="text" name="e_nombre" id="e_nombre" class="form-control" placeholder="Nombre">
+                        <input type="text" name="e_nombre" id="e_nombre" class="form-control" placeholder="Nombre" required>
                     </div>
                     <div class="form-group col-4">
                         <label>CIF</label>
-                        <input type="text" name="e_cif" id="e_cif" class="form-control" placeholder="CIF">
+                        <input type="number" name="e_cif" id="e_cif" class="form-control" placeholder="CIF" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-4">
                         <label>Dirección</label>
-                        <input type="text" name="e_direccion" id="e_direccion" class="form-control" placeholder="Dirección">
+                        <input type="text" name="e_direccion" id="e_direccion" class="form-control" placeholder="Dirección" required>
                     </div>
                     <div class="form-group col-4">
                         <label>Población</label>
-                        <input type="text" name="e_poblacion" id="e_poblacion" class="form-control" placeholder="Población">
+                        <input type="text" name="e_poblacion" id="e_poblacion" class="form-control" placeholder="Población" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-4">
                         <label>Provincia</label>
-                        <input type="text" name="e_provincia" id="e_provincia" class="form-control" placeholder="Provincia">
+                        <input type="text" name="e_provincia" id="e_provincia" class="form-control" placeholder="Provincia" required>
                     </div>
                     <div class="form-group col-4">
                         <label>CP</label>
-                        <input type="text" name="e_cp" id="e_cp" class="form-control" placeholder="CP">
+                        <input type="number" name="e_cp" id="e_cp" class="form-control" placeholder="CP" required>
                     </div>
                     <div class="form-group col-4">
                         <label>País</label>
-                        <input type="text" name="e_pais" id="e_pais" class="form-control" placeholder="País">
+                        <input type="text" name="e_pais" id="e_pais" class="form-control" placeholder="País" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-4">
                         <label>Contacto</label>
-                        <input type="text" name="e_contacto" id="e_contacto" class="form-control" placeholder="Contacto">
+                        <input type="text" name="e_contacto" id="e_contacto" class="form-control" placeholder="Contacto" required>
                     </div>
                     <div class="form-group col-4">
                         <label>Email</label>
-                        <input type="text" name="e_email" id="e_email" class="form-control" placeholder="Email">
+                        <input type="email" name="e_email" id="e_email" class="form-control" placeholder="Email" required>
                     </div>
                     <div class="form-group col-4">
                         <label>Telefono</label>
-                        <input type="text" name="e_telefono" id="e_telefono" class="form-control" placeholder="Telefono">
+                        <input type="number" name="e_telefono" id="e_telefono" class="form-control" placeholder="Telefono" required>
                     </div>
                 </div>
             </div>
@@ -98,49 +110,49 @@
                 <div class="row">
                     <div class="form-group col-8">
                         <label>Nombre</label>
-                        <input type="text" name="c_nombre" id="c_nombre" class="form-control" placeholder="Nombre">
+                        <input type="text" name="c_nombre" id="c_nombre" class="form-control" placeholder="Nombre" required>
                     </div>
                     <div class="form-group col-4">
                         <label>CIF</label>
-                        <input type="text" name="c_cif" id="c_cif" class="form-control" placeholder="CIF">
+                        <input type="number" name="c_cif" id="c_cif" class="form-control" placeholder="CIF" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-4">
                         <label>Dirección</label>
-                        <input type="text" name="c_direccion" id="c_direccion" class="form-control" placeholder="Dirección">
+                        <input type="text" name="c_direccion" id="c_direccion" class="form-control" placeholder="Dirección" required>
                     </div>
                     <div class="form-group col-4">
                         <label>Población</label>
-                        <input type="text" name="c_poblacion" id="c_poblacion" class="form-control" placeholder="Población">
+                        <input type="text" name="c_poblacion" id="c_poblacion" class="form-control" placeholder="Población" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-4">
                         <label>Provincia</label>
-                        <input type="text" name="c_provincia" id="c_provincia" class="form-control" placeholder="Provincia">
+                        <input type="text" name="c_provincia" id="c_provincia" class="form-control" placeholder="Provincia" required>
                     </div>
                     <div class="form-group col-4">
                         <label>CP</label>
-                        <input type="text" name="c_cp" id="c_cp" class="form-control" placeholder="CP">
+                        <input type="number" name="c_cp" id="c_cp" class="form-control" placeholder="CP" required>
                     </div>
                     <div class="form-group col-4">
                         <label>País</label>
-                        <input type="text" name="c_pais" id="c_pais" class="form-control" placeholder="País">
+                        <input type="text" name="c_pais" id="c_pais" class="form-control" placeholder="País" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-4">
                         <label>Contacto</label>
-                        <input type="text" name="c_contacto" id="c_contacto" class="form-control" placeholder="Contacto">
+                        <input type="text" name="c_contacto" id="c_contacto" class="form-control" placeholder="Contacto" required>
                     </div>
                     <div class="form-group col-4">
                         <label>Email</label>
-                        <input type="text" name="c_email" id="c_email" class="form-control" placeholder="Email">
+                        <input type="email" name="c_email" id="c_email" class="form-control" placeholder="Email" required>
                     </div>
                     <div class="form-group col-4">
                         <label>Telefono</label>
-                        <input type="text" name="c_telefono" id="c_telefono" class="form-control" placeholder="Telefono">
+                        <input type="number" name="c_telefono" id="c_telefono" class="form-control" placeholder="Telefono" required>
                     </div>
                 </div>
             </div>
@@ -156,24 +168,29 @@
                             <th class="text-center">Nombre</th>
                             <th class="text-center">Cantidad</th>
                             <th class="text-center">Precio</th>
+                            <th class="text-center">IVA</th>
                         </tr>
                     </thead>
                     <tbody id="tabla_articulos">
                         <tr id='articulo1'>
                             <td>1</td>
                             <td>
-                            <input type="text" name='nombre' id="nombre" placeholder='Nombre' class="form-control"/>
+                            <input type="text" name='nombre' id="nombre" placeholder='Nombre' class="form-control" required/>
                             </td>
                             <td>
-                            <input type="text" name='cantidad' id="cantidad" placeholder='Cantidad' class="form-control"/>
+                            <input type="number" name='cantidad' id="cantidad" placeholder='Cantidad' class="form-control" required/>
                             </td>
                             <td>
-                            <input type="text" name='precio' id="precio" placeholder='Precio' class="form-control"/>
+                            <input type="number" step="0.01" name='precio' id="precio" placeholder='Precio' class="form-control" required/>
+                            </td>
+                            <td>
+                            <input type="number" step="0.01" name='iva' id="iva" placeholder='IVA' class="form-control" required/>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <button type="submit" class="btn btn-success">Enviar</button>
+
+                <button type="submit" class="btn btn-success">Generar</button>
                 <button type="button" class="btn btn-default" onclick="añadir_fila()">Añadir</button>
                 <button type="button" class="btn btn-default" onclick="eliminar_fila()">Eliminar</button>
             </div>

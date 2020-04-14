@@ -19,11 +19,13 @@ from webapp2_extras import jinja2
 from datetime import date
 
 class LineaFactura:
-    def __init__(self, nombre, cantidad, precio):
+    def __init__(self, nombre, cantidad, precio, iva):
         self.nombre = nombre
         self.cantidad = cantidad
         self.precio = precio
+        self.iva = iva
         self.subtotal = cantidad * precio
+        self.total = self.subtotal * (1 + iva / 100)
 
 class MainHandler(webapp2.RequestHandler):
     def post(self):
@@ -59,15 +61,18 @@ class MainHandler(webapp2.RequestHandler):
         nombres = self.request.get_all("nombre")
         cantidades = self.request.get_all("cantidad")
         precios = self.request.get_all("precio")
+        iva = self.request.get_all("iva")
 
         lineas_factura = []
 
         for i in range(len(precios)):
-            lineas_factura.append(LineaFactura(nombres[i], int(cantidades[i]), float(precios[i])))
+            lineas_factura.append(LineaFactura(nombres[i], int(cantidades[i]), float(precios[i]), float(iva[i])))
 
+        total_sin_iva = 0
         total = 0
         for linea in lineas_factura:
-            total += linea.subtotal
+            total_sin_iva += linea.subtotal
+            total += linea.total
 
         valores = {
             "fecha": fecha,
@@ -95,7 +100,8 @@ class MainHandler(webapp2.RequestHandler):
             "c_telefono": c_telefono,
 
             "lineas_factura": lineas_factura,
-            "total": total
+            "total_sin_iva": round(total_sin_iva, 2),
+            "total": round(total, 2)
         }
 
         self.response.write(jinja.render_template("factura.html", **valores))
